@@ -2,7 +2,7 @@ import os
 import malupdate as mal
 import getpass
 
-from local_mal_tracker import check_login, anime_finder, path_to_cache, check_progress
+from eki import check_login, anime_finder, path_to_cache, check_progress
 
 user = {}
 anime_details = {}
