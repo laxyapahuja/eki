@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="localmaltracker", # Replace with your own username
+    name="eki", # Replace with your own username
     version="0.0.1",
     author="Laxya Pahuja",
     author_email="mail@laxya.co",
     description="MyAnimeList tracker for local anime files.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/laxyapahuja/local-mal-tracker",
+    url="https://github.com/laxyapahuja/eki",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
