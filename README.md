@@ -11,7 +11,7 @@ pip install eki
 
 To start using it, open command prompt in the folder which has the name of the anime and contains the episodes.
 
-Run it by simply typing ```eki``` in cmd.
+Run it by simply typing ```python -m eki``` in cmd (for now. till i figure out how to make it Eki only). 
 And then follow along.
 
 # Features
