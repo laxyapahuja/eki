@@ -49,9 +49,6 @@ def track(episode_info, progress_cache, user):
         print('\n(Press Ctrl+C to quit)')
     while True:
         try:
-            current_episode = get_episode(episode_info, progress_cache, user)[0]
-            if current_episode == None:
-                pass
             try:
                 if get_episode(episode_info, progress_cache, user)[0] == current_episode:
                     clear()
