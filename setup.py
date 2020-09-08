@@ -22,7 +22,6 @@ setuptools.setup(
     install_requires=[
         'malupdate',
         'pywin32',
-        'pymediainfo',
-        'getpass'
+        'pymediainfo'
     ],
 )
