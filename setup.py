@@ -18,7 +18,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    entry_points={'console_scripts': ['eki=eki.__main__:main']}
+    entry_points={'console_scripts': ['eki=eki.__main__:main']},
     python_requires='>=3.6',
     install_requires=[
         'malupdate',
