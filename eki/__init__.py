@@ -1,6 +1,8 @@
 import os
 import requests
 import json
+import time
+import sys
 
 path_to_cache = os.getenv('LOCALAPPDATA') + '\\eki\\' #path to login cache
 jikan_anime_search = "https://api.jikan.moe/v3/search/anime?q=" # Jikan search API endpoint
@@ -66,6 +68,7 @@ def anime_finder(path, correct: bool = True, anime: str = None):
                 clear()
                 print('Title: ' + response[0]['title'] + '\n' + 'MAL URL: ' + response[0]['url'])
                 n = input('Is this the correct title? [Y/N] \n')
+                n = n.lower()
                 if n == 'yes' or n == 'y':
                     anime_details = {
                     'title': response[0]['title'],
@@ -98,6 +101,11 @@ def anime_finder(path, correct: bool = True, anime: str = None):
         progress_cache['anime_details'] = anime_details
         return anime_details
     except KeyError:
-        print('The API is down. Try running eki again.')
+        print('The API is down. Retrying.')
+        time.sleep(3)
+        anime_details(os.getcwd())
+    except KeyboardInterrupt:
+        print('Omae Wa Moe Shindeiru')
+        sys.exit()
 
 progress_cache['anime_details'] = anime_finder(os.getcwd())

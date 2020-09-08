@@ -37,7 +37,26 @@ def duration_parser(progress_cache):
     time_in_secs -= (0.2*time_in_secs)
     return time_in_secs
 
+def update_prompt(user, progress_cache, current_episode):
+    print('I just noticed that you changed the episode. Do you want to update your MAL? [Y/N]')
+    y = input().lower()
+    if y == 'y' or y == 'yes':
+        episode = current_episode-1
+        response = update_ep(user, int(progress_cache['anime_details']['mal_id']), episode)
+        try:
+            if response['status']:
+                print('Successfully updated list!')
+                time.sleep(2)
+                clear()
+        except(KeyError):
+            print(response)
+            time.sleep(5)
+    else:
+        time.sleep(1)
+        clear()
+
 def track(episode_info, progress_cache, user):
+    episode_check = 0
     try:
         current_episode = get_episode(episode_info, progress_cache, user)[0]
     except IndexError:
@@ -68,30 +87,18 @@ def track(episode_info, progress_cache, user):
             except(IOError):
                 time.sleep(5)
             except(IndentationError):
-                print('I just noticed that you changed the episode. Do you want to update your MAL? [Y/N]')
-                y = input().lower()
-                if y == 'y' or y == 'yes':
-                    episode = current_episode-1
-                    response = update_ep(user, int(progress_cache['anime_details']['mal_id']), episode)
-                    try:
-                        if response['status']:
-                            print('Successfully updated list!')
-                            time.sleep(2)
-                            clear()
-                    except(KeyError):
-                        print(response)
-                        time.sleep(5)
-                else:
-                    time.sleep(1)
-                    clear()
+                update_prompt(user, progress_cache, current_episode)
             except IndexError:
                 clear()
                 print('VLC is not running.')
+                if episode_check != current_episode:
+                    update_prompt(user, progress_cache, current_episode+1)
+                    episode_check = current_episode
+                else:
+                    pass
                 time.sleep(3)
         except IndexError:
-            clear()
-            print('VLC is not running.')
-            time.sleep(3)
+            pass
         except KeyboardInterrupt:
             print('\nOmae Wa Mou Shindeiru.')
             sys.exit()

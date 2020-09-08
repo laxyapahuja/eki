@@ -6,7 +6,8 @@ from eki import fetch_login_cache, path_to_cache, clear
 def login_auth(user, details):
     if 'access_token' in user.keys():
         print('Logged in as ' + details['username'] +'. Proceed? [Y/N]')
-        n = input().lower()
+        n = input()
+        n = n.lower()
         if n == 'yes' or n == 'y':
             pass
         else: 

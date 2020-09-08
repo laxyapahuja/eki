@@ -62,7 +62,7 @@ def episode_number_format(episode):
 def title_stripper(filename, common):
     filename = re.sub("[\(\[].*?[\)\]]", "", filename)
     for com in common:
-        filename = filename.replace(com, ' ')
+        filename = filename.replace(com, '')
     return filename
 
 def file_episode(check_progress):
