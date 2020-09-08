@@ -9,10 +9,9 @@ MyAnimeList tracker for local anime files
 pip install eki
 ```
 
-To start using it, open command prompt in the folder which has the name of the anime and contains the episodes.
-
-Run it by simply typing ```python -m eki``` in cmd (for now. till i figure out how to make it Eki only). 
-And then follow along.
+# How to use
+To start using it, open command prompt in the folder which has the name of the anime and contains the episodes. This can be done by simply changing the path in the file explorer to cmd.
+Run it by typing ```eki``` in cmd and then follow along.
 
 # Features
 
