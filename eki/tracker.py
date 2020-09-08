@@ -40,10 +40,14 @@ def duration_parser(progress_cache):
 def track(episode_info, progress_cache, user):
     try:
         current_episode = get_episode(episode_info, progress_cache, user)[0]
-        if current_episode == None:
-            pass
     except IndexError:
-        pass
+        while True:
+            clear()
+            print('VLC is not running.')
+            time.sleep(2)
+            if get_episode(episode_info, progress_cache, user) != []:
+                current_episode = get_episode(episode_info, progress_cache, user)[0]
+                break
     except Exception as e:
         print(e)
         print('\n(Press Ctrl+C to quit)')
@@ -80,15 +84,14 @@ def track(episode_info, progress_cache, user):
                 else:
                     time.sleep(1)
                     clear()
-                clear()
             except IndexError:
+                clear()
                 print('VLC is not running.')
                 time.sleep(3)
-                clear()
         except IndexError:
-                print('VLC is not running.')
-                time.sleep(3)
-                clear()
+            clear()
+            print('VLC is not running.')
+            time.sleep(3)
         except KeyboardInterrupt:
             print('\nOmae Wa Mou Shindeiru.')
             sys.exit()

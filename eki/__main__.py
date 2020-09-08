@@ -1,9 +1,7 @@
 import os
-import malupdate as mal
-import win32gui
 import re
 import json
-import time
+import sys
 
 from pymediainfo import MediaInfo
 
@@ -104,12 +102,16 @@ def file_episode(check_progress):
     progress_cache['file_episodes'] = file_episodes
     
 def main():
-    clear()
-    print("Welcome to eki: Your local MyAnimeList tracker! \n")
-    user = login(check_login())
-    file_episode(check_progress())
-    create_progress(os.getcwd(), progress_cache['anime_details'], check_progress())
-    track(episode_info, progress_cache, user)
+    try:
+        clear()
+        print("Welcome to eki: Your local MyAnimeList tracker! \n")
+        user = login(check_login())
+        file_episode(check_progress())
+        create_progress(os.getcwd(), progress_cache['anime_details'], check_progress())
+        track(episode_info, progress_cache, user)
+    except KeyboardInterrupt:
+        print('Omae Wa Mou Shindeiru.')
+        sys.exit()
 
 if __name__ == '__main__':
     main()

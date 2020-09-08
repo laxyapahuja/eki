@@ -51,50 +51,53 @@ def fetch_login_cache():
 
 def anime_finder(path, correct: bool = True, anime: str = None):
     # Finds the anime and prompts the user to confirm it 
-    anime_details = {}
-    if check_progress() == True:
-        anime_details = progress_cache['anime_details']
-        print('Title: ' + anime_details['title'] + '\n' + 'MAL URL: ' + anime_details['url'] + '\n' + 'loaded from progress.txt. If you think it\'s wrong, delete progress.txt and run eki again.')
-    else:
-        if anime != None:
-            anime_title = anime
+    try:
+        anime_details = {}
+        if check_progress() == True:
+            anime_details = progress_cache['anime_details']
+            print('Title: ' + anime_details['title'] + '\n' + 'MAL URL: ' + anime_details['url'] + '\n' + 'loaded from progress.txt. If you think it\'s wrong, delete progress.txt and run eki again.')
         else:
-            anime_title = path.split('\\')[-1]
-        response = requests.get(jikan_anime_search + anime_title).json()["results"]
-        if correct:
-            clear()
-            print('Title: ' + response[0]['title'] + '\n' + 'MAL URL: ' + response[0]['url'])
-            n = input('Is this the correct title? [Y/N] \n')
-            if n == 'yes' or n == 'y':
-                anime_details = {
-                'title': response[0]['title'],
-                'mal_id': response[0]['mal_id'],
-                'url': response[0]['url'],
-                'episodes': response[0]['episodes']
-                }
+            if anime != None:
+                anime_title = anime
             else:
-                anime_details = anime_finder(os.getcwd(), False)
-        else:
-            try:
+                anime_title = path.split('\\')[-1]
+            response = requests.get(jikan_anime_search + anime_title).json()["results"]
+            if correct:
                 clear()
-                print('Choose the correct title: [1-5/n]')
-                for i in range(5):
-                    print(str(i+1)+'. ' + response[i]['title'] + '\n' + response[i]['url'] + '\n')
-                choice = int(input("Correct title: "))
-                anime_details = {
-                    'title': response[choice - 1]['title'],
-                    'mal_id': response[choice - 1]['mal_id'],
-                    'url': response[choice -1]['url'],
-                    'episodes': response[choice - 1]['episodes']
-                }
-                return anime_details
-            except:
-                clear()
-                inp = input('Manual Search: ')
-                anime_details = anime_finder(os.getcwd(), False, inp)
-    duration = requests.get(jikan_anime + str(anime_details['mal_id'])).json()["duration"]
-    anime_details['duration'] = duration
-    progress_cache['anime_details'] = anime_details
-    return anime_details
+                print('Title: ' + response[0]['title'] + '\n' + 'MAL URL: ' + response[0]['url'])
+                n = input('Is this the correct title? [Y/N] \n')
+                if n == 'yes' or n == 'y':
+                    anime_details = {
+                    'title': response[0]['title'],
+                    'mal_id': response[0]['mal_id'],
+                    'url': response[0]['url'],
+                    'episodes': response[0]['episodes']
+                    }
+                else:
+                    anime_details = anime_finder(os.getcwd(), False)
+            else:
+                try:
+                    clear()
+                    print('Choose the correct title: [1-5/n]')
+                    for i in range(5):
+                        print(str(i+1)+'. ' + response[i]['title'] + '\n' + response[i]['url'] + '\n')
+                    choice = int(input("Correct title: "))
+                    anime_details = {
+                        'title': response[choice - 1]['title'],
+                        'mal_id': response[choice - 1]['mal_id'],
+                        'url': response[choice -1]['url'],
+                        'episodes': response[choice - 1]['episodes']
+                    }
+                    return anime_details
+                except:
+                    clear()
+                    inp = input('Manual Search: ')
+                    anime_details = anime_finder(os.getcwd(), False, inp)
+        duration = requests.get(jikan_anime + str(anime_details['mal_id'])).json()["duration"]
+        anime_details['duration'] = duration
+        progress_cache['anime_details'] = anime_details
+        return anime_details
+    except KeyError:
+        print('The API is down. Try running eki again.')
 
 progress_cache['anime_details'] = anime_finder(os.getcwd())

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="eki", # Replace with your own username
-    version="0.0.2",
+    version="0.0.4",
     author="Laxya Pahuja",
     author_email="mail@laxya.co",
     description="MyAnimeList tracker for local anime files.",
