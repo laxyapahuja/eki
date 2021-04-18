@@ -2,6 +2,7 @@ import os
 import re
 import json
 import sys
+import requests
 
 from pymediainfo import MediaInfo
 
@@ -13,8 +14,8 @@ from eki.tracker import track
 user = {} # User Object
 episode_info = [] # Episodes Information
 
-def create_progress(path, anime_details, check_progress: bool = False):
-    if check_progress == True:
+def create_progress(path, check_progress: bool = False):
+    if check_progress:
         pass
     else:
         with open(path + '\progress.txt', "wb") as f:
@@ -100,6 +101,29 @@ def file_episode(check_progress):
         }
         episode_info.append(episode_dict)
     progress_cache['file_episodes'] = file_episodes
+
+def file_episodes_renamer(check_progress):
+    API_URL = 'https://api.jikan.moe/v3/anime/'
+    api_data = []
+    file_episodes = progress_cache['file_episodes']
+    response = requests.get(API_URL+str(progress_cache['anime_details']['mal_id'])+'/episodes').json()
+    api_data = api_data + response['episodes']
+    for i in range(2, response['episodes_last_page']+1):
+        response = requests.get(API_URL+str(progress_cache['anime_details']['mal_id'])+'/episodes/'+str(i)).json()
+        api_data = api_data + response['episodes']
+    for key in file_episodes:
+        for j in api_data:
+            if key == str(j['episode_id']):
+                new_filename = progress_cache['anime_details']['title'].replace(':', ' -').replace('?', '').replace('\\','').replace('/', '').replace('\"', '\'').replace('<','').replace('>','').replace('|','') + ' E' + episode_number_format(key) + ' - ' + j['title'].replace(':', ' -').replace('?', '').replace('\\','').replace('/', '').replace('\"', '\'').replace('<','').replace('>','').replace('|','') + '.' + file_episodes[key].split('.')[-1]
+                if (file_episodes[key] == new_filename):
+                    break
+                else:
+                    os.rename(str(os.getcwd() + '\\' + file_episodes[key]), str(os.getcwd() + '\\' + new_filename))
+                    file_episodes[key] = new_filename
+    progress_cache['file_episodes'] = file_episodes
+    if check_progress:
+        with open(os.getcwd() + '\progress.txt', "wb") as f:
+            f.write(json.dumps(progress_cache, indent=4).encode('utf-8'))
     
 def main():
     try:
@@ -107,7 +131,8 @@ def main():
         print("Welcome to eki: Your local MyAnimeList tracker! \n")
         user = login(check_login())
         file_episode(check_progress())
-        create_progress(os.getcwd(), progress_cache['anime_details'], check_progress())
+        file_episodes_renamer(check_progress())
+        create_progress(os.getcwd(), check_progress())
         track(episode_info, progress_cache, user)
     except KeyboardInterrupt:
         print('Omae Wa Mou Shindeiru.')

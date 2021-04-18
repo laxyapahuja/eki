@@ -1,7 +1,12 @@
 # 易 eki
 MyAnimeList tracker for local anime files
+eki is a MyAnimeList tracker for your downloaded anime TV series and movies. Currently supports VLC Media Player for Windows only.
 
-### eki is a MyAnimeList tracker for your downloaded anime TV series and movies. Supports VLC Media Player for Windows only.
+# Updates
+v0.0.7
+
+- Renames your anime files to properly formatted episode titles (format: `[anime name] E[episode number] - [episode title]`)
+
 
 # Installation
 
@@ -15,7 +20,7 @@ Run it by typing ```eki``` in cmd and then follow along.
 
 # Features
 
-Automatic Anime Detection based on folder name.
+Automatic anime detection based on folder name.
 
 Assigns all the files to their corresponding episodes.
 

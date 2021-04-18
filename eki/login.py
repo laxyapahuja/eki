@@ -18,7 +18,7 @@ def login_auth(user, details):
 
 def login(check_login: bool = False):
     # MyAnimeList login
-    if check_login == True:
+    if check_login:
         details = fetch_login_cache()
         user = mal.User.login(details['username'], details['password'])
         login_auth(user, details)

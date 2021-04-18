@@ -13,13 +13,10 @@ def clear():
 
 def check_progress():
     # Checks if progress cache is present
-    if os.path.exists(os.getcwd() + '\progress.txt'):
-        return True
-    else:
-        return False
+    return os.path.exists(os.getcwd() + '\progress.txt')
 
 def load_progress():
-    if check_progress() == True:
+    if check_progress():
         f = open(os.getcwd() + '\progress.txt', encoding='utf-8', errors='ignore')
         local_progress_cache = json.loads(str(f.read().replace("\'", "\"")))
         f.close()
@@ -39,7 +36,7 @@ def check_login():
         return False
 
 def fetch_login_cache():
-    if check_login() == True:
+    if check_login():
         f = open(path_to_cache + 'login.txt')
         login_info_cache = f.read()
         username = login_info_cache.split('\n')[0].split(':')[1].strip()
@@ -55,7 +52,7 @@ def anime_finder(path, correct: bool = True, anime: str = None):
     # Finds the anime and prompts the user to confirm it 
     try:
         anime_details = {}
-        if check_progress() == True:
+        if check_progress():
             anime_details = progress_cache['anime_details']
             print('Title: ' + anime_details['title'] + '\n' + 'MAL URL: ' + anime_details['url'] + '\n' + 'loaded from progress.txt. If you think it\'s wrong, delete progress.txt and run eki again.')
         else:
